@@ -1,28 +1,6 @@
-// *** Variables
-// Mapa con los respectivos puntos de quiebre de pantallas
-$breakpoints: (
-	x-large: "(min-width: 85rem)",
-	large: "(min-width: 64rem)",
-	medium: "(min-width: 37.5rem) and (max-width: 63.9375rem)",
-	small: "(min-width: 15rem) and (max-width: 37.4375rem)",
-  small-to-medium: "(min-width: 15rem) and (max-width: 63.9375rem)",
-  medium-to-large: "(min-width: 37.5rem)"
-);
+// Mixin encargado de generar las Medias con los diversos puntos de quiebre de pantalla.
+// @includo breakpoint(x-large){}
 
-$breakpoints_text: (
-  "x-large",
-  "large",
-  "medium",
-  "small",
-  "small-to-medium",
-  "medium-to-large"
-);
-
-// Variable con la cantidad de cols
-$cols: 12;
-
-// **** Mixins
-// breakpoint para identificar los quiebres de pantalla
 @mixin breakpoint($device) {
   @if not map-has-key($breakpoints, $device) {
     @error 'Device value (#{$device}) is unknown';
@@ -33,71 +11,9 @@ $cols: 12;
   }
 }
 
-// funcion de prueba para cambiar color de body
+// Funcion de Prueba
 @mixin colorbody($color){
   body{
     background-color: $color;
   }
 }
-
-// For para generar las clases col correspondientes
-
-@mixin generate-cols($paddings,$screen)
-{
-  @for $i from 1 through $cols {
-    .col-#{$screen}-#{$i}{
-      width: (100% * $i) / $cols;
-      box-sizing: border-box;
-      float: left;
-      background-color: gray;
-      @if $screen == "s"{
-        padding-left: 0.3125rem;
-        padding-right: 0.3125rem;
-      }
-      @else{
-        padding-left: 1rem;
-        padding-right: 1rem;
-      }
-    }
-  }
-}
-
-
-// For each
-//Probando un for
-@each $screen in $breakpoints_text{
-  @include breakpoint($screen){
-    @if $screen == "x-large"{
-      @include colorbody(blue);
-      @include generate-cols(2rem, 'xl');
-    }@else if $screen == "large"{
-      @include colorbody(red);
-      @include generate-cols(1rem, 'l');
-    }@else if $screen == "medium"{
-      @include colorbody(orange);
-      @include generate-cols(1rem, 'm');
-    }
-    @else if $screen == "small"{
-      @include colorbody(pink);
-      @include generate-cols(0.5rem, 's');
-    }
-  }
-}
-
-.row{
-    background-color: green;
-    box-sizing: border-box;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 62.5rem;
-}
-
-
-// .container{
-//   margin: 0 auto;
-//   width: 90%;
-//   max-width: 75rem;
-// }
-
-
-
